@@ -129,3 +129,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Ignore all files in the config directory except those in config/default/
+/config/*
+!/config/default/
