@@ -1,15 +1,16 @@
 name: deploy
 on:
   push:
-    branches: ['master']
+    branches:
+      - main
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: centos
     steps:
       - uses: actions/checkout@v3.3.0
 
       - name: execute remote ssh
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@main
         with:
           host: ${{ secrets.ALPHA_ORACLE_SSH_HOST }}
           username: ${{ secrets.ALPHA_ORACLE_SSH_USERNAME }}
@@ -17,3 +18,9 @@ jobs:
           port: ${{ secrets.ALPHA_ORACLE_SSH_PORT }}
           script: |
             whoami
+            cd ~/backtodiary
+            sudo git pull origin main
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            yarn install
+            pm2 restart app
