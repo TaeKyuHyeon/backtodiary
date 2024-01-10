@@ -132,4 +132,4 @@ dist
 
 # Ignore all files in the config directory except those in config/default/
 /config/*
-!/config/default/
+!/config/default.js
