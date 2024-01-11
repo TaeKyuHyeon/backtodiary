@@ -18,9 +18,16 @@ jobs:
           port: ${{ secrets.ALPHA_ORACLE_SSH_PORT }}
           script: |
             whoami
+
+            # Set NODE_ENV on the server
+            echo "export NODE_ENV=${{ secrets.ALPHA_ORACLE_SSH_ENV }}" >> ~/.bashrc
+            source ~/.bashrc
+
             cd ~/backtodiary
             sudo git pull origin main
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
+
+            # Copy server-specific config
+            cp /path/to/your/config/* ~/backtodiary/config/
+
             yarn install
             pm2 restart app
