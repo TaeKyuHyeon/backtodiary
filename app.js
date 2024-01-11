@@ -107,54 +107,6 @@ app.post("/generateImage/:prompt", async (req, res) => {
   }
 });
 
-/**
- * Generates an image based on the provided prompt.
- *
- * @param {string} prompt - The prompt for image generation.
- * @returns {Promise<string>} The generated image.
- * @throws {Error} If there is an error generating the image.
- * @swagger
- * /generateImage/{prompt}:
- *   post:
- *     summary: Generate image based on prompt
- *     parameters:
- *       - in: path
- *         name: prompt
- *         description: The prompt for image generation
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               prompt:
- *                 type: string
- *                 description: The prompt for image generation
- *     responses:
- *       200:
- *         description: Successful response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 generatedImage:
- *                   type: string
- *                   description: The generated image
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: Error message
- */
 async function generateImage(prompt) {
   // config.js에서 apiUrl 가져오기
   const apiUrl = config.get("apiUrl");
