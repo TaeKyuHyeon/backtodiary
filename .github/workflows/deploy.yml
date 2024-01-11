@@ -17,6 +17,7 @@ jobs:
           key: ${{ secrets.ALPHA_ORACLE_SSH_KEY }}
           port: ${{ secrets.ALPHA_ORACLE_SSH_PORT }}
           script: |
+            # before use script, must set git, pm2 app name.
             whoami
 
             # Set NODE_ENV on the server
@@ -27,7 +28,7 @@ jobs:
             sudo git pull origin main
 
             # Copy server-specific config
-            cp /path/to/your/config/* ~/backtodiary/config/
+            cp ~/conf/* ~/backtodiary/backtodiary/config/
 
             yarn install
-            pm2 restart app
+            pm2 restart backtodiary --update-env
