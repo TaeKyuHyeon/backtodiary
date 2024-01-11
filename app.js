@@ -1,13 +1,6 @@
 const express = require("express");
 const axios = require("axios");
 const bodyParser = require("body-parser");
-
-// // 환경 변수를 읽어옵니다. 값이 없다면 'local'로 설정합니다.
-// const path = require("path");
-// const environment = process.env.NODE_ENV || "local";
-// const configPath = path.resolve(__dirname, "config", environment, "config.js");
-// process.env["NODE_CONFIG_DIR"] = configPath;
-// console.log("env" + process.env.NODE_CONFIG_DIR);
 const config = require("config");
 
 const app = express();
@@ -60,6 +53,7 @@ async function generateImage(prompt) {
   return response.data;
 }
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  const ip = require('ip');
+  console.log(`Server is running at http://${ip.address()}:${port}`);
 });
