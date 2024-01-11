@@ -2,6 +2,9 @@ const express = require("express");
 const axios = require("axios");
 const bodyParser = require("body-parser");
 const config = require("config");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDef = require("./config/swaggerDef");
 
 const app = express();
 const port = 3000;
@@ -10,6 +13,85 @@ const port = 3000;
 console.log("config:", config.util.toObject());
 app.use(bodyParser.json());
 
+const options = {
+  definition: swaggerDef,
+  apis: ["app.js", "./routes/*.js"], // API를 기술한 파일들의 경로
+};
+
+const specs = swaggerJsdoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+/**
+ * @swagger
+ * /generateImage/{prompt}:
+ *   post:
+ *     summary: Generate image based on prompt
+ *     parameters:
+ *       - in: path
+ *         name: prompt
+ *         description: The prompt for image generation
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               prompt:
+ *                 type: string
+ *                 description: The prompt for image generation
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 generatedImage:
+ *                   type: object
+ *                   description: Information about the generated image
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       description: The ID of the generated image
+ *                     model_version:
+ *                       type: string
+ *                       description: The version of the image generation model
+ *                     images:
+ *                       type: array
+ *                       description: Array of generated images
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             description: The ID of the image
+ *                           image:
+ *                             type: string
+ *                             format: uri
+ *                             description: The URL of the generated image
+ *                           seed:
+ *                             type: integer
+ *                             description: The seed used for image generation
+ *                           nsfw_content_detected:
+ *                             type: boolean
+ *                             description: Whether NSFW content is detected
+ *                           nsfw_score:
+ *                             type: number
+ *                             description: NSFW score of the image
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ */
 app.post("/generateImage/:prompt", async (req, res) => {
   try {
     const prompt = req.params.prompt;
@@ -25,7 +107,6 @@ app.post("/generateImage/:prompt", async (req, res) => {
   }
 });
 
-// 이미지 생성 함수
 async function generateImage(prompt) {
   // config.js에서 apiUrl 가져오기
   const apiUrl = config.get("apiUrl");
@@ -53,7 +134,20 @@ async function generateImage(prompt) {
   return response.data;
 }
 
-app.listen(port, '0.0.0.0', () => {
-  const ip = require('ip');
+/**
+ * @swagger
+ * /example:
+ *   get:
+ *     description: Example endpoint
+ *     responses:
+ *       200:
+ *         description: Successful response
+ */
+app.get("/example", (req, res) => {
+  res.send("Hello, Swagger!");
+});
+
+app.listen(port, "0.0.0.0", () => {
+  const ip = require("ip");
   console.log(`Server is running at http://${ip.address()}:${port}`);
 });

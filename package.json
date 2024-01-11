@@ -21,6 +21,8 @@
     "axios": "^1.6.5",
     "config": "^3.3.9",
     "express": "^4.18.2",
-    "ip": "^1.1.8"
+    "ip": "^1.1.8",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   }
 }
