@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const axios = require("axios");
 const bodyParser = require("body-parser");
 const config = require("config");
@@ -12,6 +13,11 @@ const port = 3000;
 // 환경에 따라 설정 파일을 로드합니다.
 console.log("config:", config.util.toObject());
 app.use(bodyParser.json());
+// 모든 경로에 대해 CORS 허용
+app.use(cors());
+// 또는 특정 경로에 대해서만 CORS 허용
+// app.use("/api", cors());
+
 
 const options = {
   definition: swaggerDef,
