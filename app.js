@@ -18,7 +18,6 @@ app.use(cors());
 // 또는 특정 경로에 대해서만 CORS 허용
 // app.use("/api", cors());
 
-
 const options = {
   definition: swaggerDef,
   apis: ["app.js", "./routes/*.js"], // API를 기술한 파일들의 경로
@@ -28,16 +27,9 @@ const specs = swaggerJsdoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 /**
  * @swagger
- * /generateImage/{prompt}:
+ * /generateImage:
  *   post:
  *     summary: Generate image based on prompt
- *     parameters:
- *       - in: path
- *         name: prompt
- *         description: The prompt for image generation
- *         required: true
- *         schema:
- *           type: string
  *     requestBody:
  *       content:
  *         application/json:
@@ -47,6 +39,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
  *               prompt:
  *                 type: string
  *                 description: The prompt for image generation
+ *                 required: true
  *     responses:
  *       200:
  *         description: Successful response
@@ -98,9 +91,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
  *                   type: string
  *                   description: Error message
  */
-app.post("/generateImage/:prompt", async (req, res) => {
+app.post("/generateImage", async (req, res) => {
   try {
-    const prompt = req.params.prompt;
+    const prompt = req.body.prompt;
 
     // prompt와 inputString을 사용하여 이미지를 생성하는 함수 호출
     const generatedImage = await generateImage(prompt);
