@@ -1,11 +1,11 @@
 const axios = require("axios");
 const config = require("config");
+const LanguageType = require("./const/languageType");
 
-async function generateImage(prompt) {
+async function generateImage(prompt, lang, count) {
   const apiUrl = config.get("apiUrl");
-  const negativePrompt = config.get("negativePrompt");
-  const promptPrefix = config.get("promptPrefix");
-  const generateImageCount = 2;
+  const negativePrompt = config.get(`${lang}NegativePrompt`);
+  const promptPrefix = config.get(`${lang}PromptPrefix`);
 
   const headers = {
     Authorization: config.get("karloRestApiKey"),
@@ -15,7 +15,7 @@ async function generateImage(prompt) {
   const data = {
     prompt: promptPrefix + prompt,
     negative_prompt: negativePrompt,
-    samples: generateImageCount,
+    samples: count,
   };
 
   const response = await axios.post(apiUrl, data, { headers });

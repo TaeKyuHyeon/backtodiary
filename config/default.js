@@ -1,8 +1,10 @@
 module.exports = {
   apiUrl: "",
   karloRestApiKey: "",
-  negativePrompt: "",
-  promptPrefix: "",
+  enNegativePrompt: "",
+  enPromptPrefix: "",
+  korPromptPrefix: "",
+  korNegativePrompt: ""
 };
 
-// {NODE_ENV}.js
+// {NODE_ENV.js

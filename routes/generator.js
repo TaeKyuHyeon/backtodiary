@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const generateImage = require("../generator");
+const LanguageType = require("../const/languageType");
 
 /**
  * @swagger
@@ -17,6 +18,13 @@ const generateImage = require("../generator");
  *                 type: string
  *                 description: The prompt for image generation
  *                 required: true
+ *               language:
+ *                 type: string
+ *                 enum: ['en', 'kor']
+ *                 description: The language for prompt (Default: 'en')
+ *               generateImageCount:
+ *                 type: integer
+ *                 description: The count of generated images (Default: 2, Maximum: 5)
  *     responses:
  *       200:
  *         description: Successful response
@@ -68,15 +76,26 @@ const generateImage = require("../generator");
  *                   type: string
  *                   description: Error message
  */
-router.post("/", async (req, res) => {
+app.post("/generateImage", async (req, res) => {
   try {
     const prompt = req.body.prompt;
-    const generatedImage = await generateImage(prompt);
+    const language = req.body.language || LanguageType.EN; // Default to 'en' if not provided
+    const generateImageCount =
+      req.body.generateImageCount && req.body.generateImageCount <= 5
+        ? req.body.generateImageCount
+        : 2; // Default to 2, maximum 5
+
+    // prompt와 inputString을 사용하여 이미지를 생성하는 함수 호출
+    const generatedImage = await generateImage(
+      prompt,
+      language,
+      generateImageCount
+    );
+
+    // 생성된 이미지를 클라이언트에 응답
     res.json({ generatedImage });
   } catch (error) {
     console.error("Error generating image:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-module.exports = router;
