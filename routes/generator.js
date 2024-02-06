@@ -36,7 +36,7 @@ const LanguageType = require("../const/languageType");
  *                 generatedImage:
  *                   type: object
  *                   description: Information about the generated image
- *                   properties:
+ *                   properties:      
  *                     id:
  *                       type: string
  *                       description: The ID of the generated image
@@ -76,7 +76,7 @@ const LanguageType = require("../const/languageType");
  *                   type: string
  *                   description: Error message
  */
-app.post("/generateImage", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const prompt = req.body.prompt;
     const language = req.body.language || LanguageType.EN; // Default to 'en' if not provided
@@ -99,3 +99,5 @@ app.post("/generateImage", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+module.exports = router;
