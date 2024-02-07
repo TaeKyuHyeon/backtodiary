@@ -95,8 +95,8 @@ router.post("/", async (req, res) => {
     // 생성된 이미지를 클라이언트에 응답
     res.json({ generatedImage });
   } catch (error) {
-    console.error("Error generating image:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error generating from ai:", error.message);
+    res.status(500).json({ error: "Internal Server Error(generator)" });
   }
 });
 
