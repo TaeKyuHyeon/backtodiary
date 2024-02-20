@@ -21,10 +21,10 @@ const LanguageType = require("../const/languageType");
  *               language:
  *                 type: string
  *                 enum: ['en', 'kor']
- *                 description: The language for prompt (Default: 'en')
+ *                 description: "The language for prompt (Default: 'en')"
  *               generateImageCount:
  *                 type: integer
- *                 description: The count of generated images (Default: 2, Maximum: 5)
+ *                 description: "The count of generated images (Default: 2, Maximum: 5)"
  *     responses:
  *       200:
  *         description: Successful response
