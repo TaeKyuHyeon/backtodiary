@@ -16,6 +16,7 @@ async function generateImage(prompt, lang, count) {
     prompt: promptPrefix + prompt,
     negative_prompt: negativePrompt,
     samples: count,
+    return_type: "base64_string"
   };
 
   const response = await axios.post(apiUrl, data, { headers });
