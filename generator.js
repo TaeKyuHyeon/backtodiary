@@ -17,6 +17,8 @@ async function generateImage(prompt, lang, count) {
     negative_prompt: negativePrompt,
     samples: count,
     return_type: "base64_string",
+    width: 560,
+    height: 392,
   };
 
   let response = await axios.post(apiUrl, data, { headers });
