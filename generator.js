@@ -16,10 +16,15 @@ async function generateImage(prompt, lang, count) {
     prompt: promptPrefix + prompt,
     negative_prompt: negativePrompt,
     samples: count,
-    return_type: "base64_string"
+    return_type: "base64_string",
   };
 
-  const response = await axios.post(apiUrl, data, { headers });
+  let response = await axios.post(apiUrl, data, { headers });
+  console.error(response.data);
+  const modifiedImages = response.data.images.map((image) => {
+    return { ...image, image: "data:image/png;base64," + image.image };
+  });
+  response.data.images = modifiedImages;
   return response.data;
 }
 
